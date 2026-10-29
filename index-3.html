@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Élan – Motivation au quotidien</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="theme-color" content="#FF8A3D"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+<style>
+:root{--a:#FF8A3D;--b:#FFC857;--bg:#121212;--c:#1e1e20;--t:#fff;--m:#a4a4ab;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#faf6f1;--c:#fff;--t:#1b1b1f;--m:#6b6b73}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--t);font:16px/1.4 Outfit,system-ui,sans-serif}
+#app{height:100%;display:flex;flex-direction:column}
+#main{flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column}
+nav{display:flex;border-top:1px solid #8883;background:var(--bg)}
+nav button{flex:1;background:none;border:0;color:var(--m);padding:8px 0 10px;font:inherit;font-size:12px}
+nav button.on{color:var(--a);font-weight:700}
+nav i{display:block;font-style:normal;font-size:20px}
+.wall{position:relative;flex:1;min-height:440px;border-radius:28px;overflow:hidden;color:#fff;display:flex;flex-direction:column}
+.wall>svg{position:absolute;inset:0;width:100%;height:100%}
+.top{position:relative;display:flex;gap:6px;overflow-x:auto;padding:14px}
+.chip{flex:none;border:1px solid #fff6;background:#0003;color:inherit;border-radius:99px;padding:6px 12px;font:inherit;font-size:13px}
+.chip.on{background:linear-gradient(135deg,var(--a),var(--b));color:#1b1b1f;border-color:transparent;font-weight:700}
+.sub .chip{color:var(--t);border-color:#8886;background:none}.sub .chip.on{color:#1b1b1f}
+.qt{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 24px;text-shadow:0 2px 14px #0009;text-align:center}
+.q{font:italic 600 clamp(22px,6.4vw,32px)/1.3 "Playfair Display",Georgia,serif;margin:0}
+.au{margin:14px 0 0;opacity:.95;font-size:14px;font-weight:600}
+.act{position:relative;display:flex;gap:10px;justify-content:center;align-items:center;padding:16px}
+.rb{width:48px;height:48px;border-radius:50%;border:0;background:#0005;color:#fff;font-size:20px}
+.btn{border:0;border-radius:99px;padding:13px 22px;background:linear-gradient(135deg,var(--a),var(--b));color:#1b1b1f;font:700 16px Outfit,sans-serif}
+.card{background:var(--c);border-radius:22px;padding:16px;margin-bottom:12px}
+h1,h2,h3,p{margin:0 0 8px}h1{font-size:28px}h3{font-size:17px}
+.m{color:var(--m);font-size:14px}
+.days{display:flex;justify-content:space-between;margin-top:10px}
+.d{text-align:center;font-size:12px;color:var(--m)}
+.d b{display:block;width:34px;height:34px;border-radius:50%;border:2px solid #8884;margin-top:4px;line-height:30px}
+.d.on b{background:linear-gradient(135deg,var(--a),var(--b));border:0;color:#1b1b1f;line-height:34px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.th{aspect-ratio:3/4;border-radius:14px;overflow:hidden;border:3px solid transparent;padding:0;background:none}
+.th.on{border-color:var(--a)}.th svg{width:100%;height:100%;display:block}
+.dot{width:38px;height:38px;border-radius:50%;border:3px solid transparent;margin-right:8px}.dot.on{border-color:var(--t)}
+.ov{position:fixed;inset:0;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;gap:6px;z-index:9;text-align:center;padding:20px}
+.ov.on{display:flex}
+.ball{width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--b),var(--a));transform:scale(.55);box-shadow:0 0 60px var(--a);margin-bottom:24px}
+.toast{position:fixed;left:14px;right:14px;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--c);border-left:5px solid var(--a);border-radius:14px;padding:12px 14px;z-index:20;box-shadow:0 8px 30px #0006;font-size:14px}
+label.r{display:flex;gap:10px;align-items:center;padding:7px 0}
+input[type=checkbox]{width:22px;height:22px;accent-color:var(--a)}
+input[type=time]{font:inherit;background:var(--bg);color:var(--t);border:1px solid #8886;border-radius:10px;padding:6px}
+.tc{width:100%;text-align:left;border:0;color:var(--t);font:inherit;display:block}
+.lock{opacity:.4}
+.pi{font:inherit;padding:10px;border-radius:10px;border:1px solid #8886;background:var(--c);color:var(--t);text-transform:uppercase;width:190px}
+</style></head><body>
+<div id="app"><div id="main"></div>
+<nav><button data-t="home" onclick="go('home')"><i>✨</i>Accueil</button><button data-t="calm" onclick="go('calm')"><i>🌿</i>Calme</button><button data-t="fav" onclick="go('fav')"><i>♥</i>Favoris</button><button data-t="me" onclick="go('me')"><i>🔥</i>Profil</button></nav></div>
+<div class="ov" id="ov"></div>
+<script>
+const $=s=>document.querySelector(s);
+const C={mot:"Motivation",anx:"Anti-anxiété",con:"Confiance",dis:"Discipline",arg:"Argent & réussite",res:"Résilience",gra:"Gratitude"};
+const Q=[
+["Un voyage de mille lieues commence par un premier pas.","Lao Tseu","mot"],
+["Le commencement est la plus importante partie du travail.","Platon","mot"],
+["Celui qui a un pourquoi peut supporter presque tous les comment.","Nietzsche","mot"],
+["Nous souffrons plus souvent en imagination que dans la réalité.","Sénèque","anx"],
+["Ce ne sont pas les choses qui nous troublent, mais le jugement que nous portons sur elles.","Épictète","anx"],
+["Il vaut mieux changer ses désirs que l’ordre du monde.","Descartes","anx"],
+["Ne pas rire, ne pas pleurer, ne pas haïr, mais comprendre.","Spinoza","anx"],
+["Distingue ce qui dépend de toi de ce qui n’en dépend pas.","Épictète","anx"],
+["Il n’est jamais trop tôt ni trop tard pour prendre soin de son âme.","Épicure","anx"],
+["Ce n’est pas parce que les choses sont difficiles que nous n’osons pas, c’est parce que nous n’osons pas qu’elles sont difficiles.","Sénèque","con"],
+["Connais-toi toi-même.","Socrate","con"],
+["La chose la plus importante au monde est de savoir s’appartenir.","Montaigne","con"],
+["Ton esprit prendra la couleur de tes pensées habituelles.","Marc Aurèle","con"],
+["Une vie sans examen ne vaut pas la peine d’être vécue.","Socrate","con"],
+["On devient courageux en accomplissant des actes courageux.","Aristote","dis"],
+["Tant que tu vis, continue d’apprendre à vivre.","Sénèque","dis"],
+["Il faut cultiver notre jardin.","Voltaire","dis"],
+["Ce qui ne me tue pas me rend plus fort.","Nietzsche","res"],
+["Ce qui fait obstacle à l’action fait avancer l’action.","Marc Aurèle","res"],
+["Ce n’est pas celui qui a peu qui est pauvre, mais celui qui désire davantage.","Sénèque","arg"],
+["La richesse naturelle a des limites ; celle des vaines opinions n’en a pas.","Épicure","arg"],
+["Le travail éloigne de nous trois grands maux : l’ennui, le vice et le besoin.","Voltaire","arg"],
+["Regarde les belles choses que tu possèdes et songe combien tu les chercherais si tu ne les avais pas.","Marc Aurèle","gra"],
+["Rien n’est suffisant pour celui pour qui le suffisant est peu.","Épicure","gra"]];
+const W=[
+{n:"Aube en montagne",s:["#FF9966","#FF5E62","#2b1055"],u:[.5,.38,"#FFE29F"],L:["#7b3f6b","#4b2a5e","#241540"],k:"m"},
+{n:"Océan doré",s:["#FFD194","#F77F00","#1a2a6c"],u:[.5,.5,"#FFF3B0"],L:["#1f6f8b","#14506b","#0b2e45"],k:"w"},
+{n:"Forêt vive",s:["#d4fc79","#96e6a1","#0f5132"],u:[.75,.25,"#fffbe0"],L:["#2e9e5b","#1b7a45","#0d4a2b"],k:"p"},
+{n:"Dunes de feu",s:["#fceabb","#f8b500","#c0392b"],u:[.3,.3,"#ffffff"],L:["#e67e22","#c0562b","#7a2e1b"],k:"d"},
+{n:"Nuit étoilée",s:["#0f2027","#203a43","#2c5364"],st:1,u:[.78,.2,"#f5f3ce"],L:["#1c2f3a","#12222c","#0a141b"],k:"m"},
+{n:"Aurore",s:["#0f0c29","#302b63","#24c6dc"],st:1,u:[.2,.15,"#d6f5ff"],L:["#1d2b64","#141e4a","#0a1030"],k:"d"}];
+const TH=[["Aube","#FF8A3D","#FFC857"],["Énergie","#FF4D6D","#FF9E7D"],["Nature","#22C55E","#A3E635"],["Océan","#06B6D4","#60A5FA"],["Royal","#A855F7","#F472B6"]];
+const B={coh:["Cohérence cardiaque","6 respirations par minute, idéal 5 min",[["Inspire",5,1],["Expire",5,.55]]],
+box:["Respiration carrée","Retrouver le calme avant un stress",[["Inspire",4,1],["Retiens",4,1],["Expire",4,.55],["Retiens",4,.55]]],
+b478:["Méthode 4-7-8","Apaiser une crise ou s’endormir",[["Inspire",4,1],["Retiens",7,1],["Expire",8,.55]]]};
+/* RÉGLAGES PREMIUM : colle ici ton lien de paiement Stripe ; CODES = empreintes SHA-256 des codes valides */
+const PAY_URL="",PRICE="3,99 € par mois ou 29,99 € par an",CODES=["4bc803d50c8c7066e2f4fc54643c41acfd365b4d320f9255ca72d9362e18a389"],FREE={cats:["mot","anx","con"],walls:[0,1,2],themes:[0,1],br:["coh"],fav:5};
+let S={pro:false,cats:Object.keys(C),wall:0,theme:0,showQ:true,fav:[],days:[],rem:{on:false,t:"08:00",last:""}},tab="home",f="all",cq=0,run=0;
+try{Object.assign(S,JSON.parse(localStorage.getItem("elan")||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem("elan",JSON.stringify(S))}catch(e){}};
+const today=()=>new Date().toLocaleDateString("sv");
+if(!S.days.includes(today())){S.days.push(today());S.days=S.days.slice(-60);save()}
+function wp(i,id){const w=W[i];let s=7+i*13;const r=()=>(s=s*16807%2147483647)/2147483647;
+let o=`<svg viewBox="0 0 400 700" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g${id}" x1="0" y1="0" x2="0" y2="1">${w.s.map((c,j)=>`<stop offset="${j/2}" stop-color="${c}"/>`).join("")}</linearGradient></defs><rect width="400" height="700" fill="url(#g${id})"/>`;
+if(w.st)for(let j=0;j<45;j++)o+=`<circle cx="${r()*400}" cy="${r()*330}" r="${r()*1.4+.4}" fill="#fff" opacity="${.4+r()*.6}"/>`;
+o+=`<circle cx="${w.u[0]*400}" cy="${w.u[1]*700}" r="70" fill="${w.u[2]}" opacity=".25"/><circle cx="${w.u[0]*400}" cy="${w.u[1]*700}" r="36" fill="${w.u[2]}"/>`;
+w.L.forEach((c,l)=>{const b=430+l*85,a=[120,90,60][l];let p=`M0,700 L0,${b}`;for(let x=0;x<=400;x+=10){const y=w.k=="m"?b-r()*a:w.k=="p"?b-((x/10)%2?a*(.4+r()*.6):a*.1):b-(Math.sin(x/70+l*2)+1)*a/3;p+=` L${x},${y}`}o+=`<path d="${p} L400,700Z" fill="${c}"/>`});
+return o+"</svg>"}
+function toast(m){const d=document.createElement("div");d.className="toast";d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),4500)}
+function th(){const t=TH[S.theme];document.documentElement.style.setProperty("--a",t[1]);document.documentElement.style.setProperty("--b",t[2])}
+const pool=()=>{const a=Q.map((q,i)=>i).filter(i=>okc(Q[i][2])),p=a.filter(i=>f=="all"?S.cats.includes(Q[i][2]):Q[i][2]==f);return p.length?p:a};
+function nxt(){const p=pool();let n;do{n=p[Math.floor(Math.random()*p.length)]}while(n==cq&&p.length>1);cq=n;render()}
+function fav(){const i=S.fav.indexOf(cq);if(i<0&&!S.pro&&S.fav.length>=FREE.fav)return pw("Favoris illimités");i<0?S.fav.push(cq):S.fav.splice(i,1);save();render()}
+function shr(){const q=Q[cq],t=`« ${q[0]} » — ${q[1]}`;try{navigator.share({text:t}).catch(()=>{})}catch(e){try{navigator.clipboard.writeText(t);toast("Citation copiée")}catch(e2){toast(t)}}}
+function go(t){tab=t;render()}
+function flt(k){f=k;nxt()}
+function cat(k){if(!okc(k))return pw("Toutes les catégories");const i=S.cats.indexOf(k);i<0?S.cats.push(k):S.cats.length>1&&S.cats.splice(i,1);save();render()}
+function setW(i){if(!okw(i))return pw("Tous les fonds d’écran");S.wall=i;save();render()}function setT(i){if(!okt(i))return pw("Tous les thèmes de couleurs");S.theme=i;save();render()}
+function tq(){S.showQ=!S.showQ;save();render()}
+function streak(){let n=0,d=new Date();while(S.days.includes(d.toLocaleDateString("sv"))){n++;d.setDate(d.getDate()-1)}return n}
+function br(k){if(!S.pro&&!FREE.br.includes(k))return pw("Tous les exercices de respiration");const p=B[k][2],id=++run;$("#ov").innerHTML=`<div class="ball" id="ball"></div><h2 id="bl"></h2><h1 id="bc"></h1><p class="m">Respirations complètes : <b id="bn">0</b></p><button class="btn" onclick="stop()">Terminer</button>`;$("#ov").classList.add("on");let i=0,n=0;
+const go2=()=>{if(id!==run)return;const[l,s,sc]=p[i];$("#bl").textContent=l;const b=$("#ball");b.style.transition=`transform ${s}s ease-in-out`;b.style.transform=`scale(${sc})`;let c=s;$("#bc").textContent=c;
+const iv=setInterval(()=>{if(id!==run){clearInterval(iv);return}c--;$("#bc").textContent=c;if(c<=0){clearInterval(iv);i++;if(i>=p.length){i=0;n++;$("#bn").textContent=n}go2()}},1000)};setTimeout(go2,80)}
+function stop(){run++;$("#ov").classList.remove("on")}
+async function remOn(){S.rem.on=!S.rem.on;if(S.rem.on){try{if("Notification"in window&&Notification.permission=="default")await Notification.requestPermission()}catch(e){}}save();render()}
+function ping(){const p=pool(),q=Q[p[Math.floor(Math.random()*p.length)]],m=`« ${q[0]} » — ${q[1]}`;toast(m);try{if(Notification.permission=="granted"){const n=()=>{try{new Notification("Élan",{body:m})}catch(e){}};navigator.serviceWorker.getRegistration().then(g=>g?g.showNotification("Élan",{body:m,icon:"icon-192.png"}):n()).catch(n)}}catch(e){}}
+setInterval(()=>{const r=S.rem;if(!r.on)return;const d=new Date(),k=today()+r.t;if(d.toTimeString().slice(0,5)==r.t&&r.last!=k){r.last=k;save();ping()}},20000);
+const okc=k=>S.pro||FREE.cats.includes(k),okw=i=>S.pro||FREE.walls.includes(i),okt=i=>S.pro||FREE.themes.includes(i);
+function prem(){return `<div class="card" style="background:linear-gradient(135deg,var(--a),var(--b));color:#1b1b1f"><h3>${S.pro?"Premium actif ✓":"Essayez Premium"}</h3><p style="font-size:14px">${S.pro?"Merci de soutenir Élan.":"Toutes les catégories, fonds, thèmes et exercices."}</p>${S.pro?"":`<button class="btn" style="background:#1b1b1f;color:#fff" onclick="pw()">Découvrir</button>`}</div>`}
+function pw(w){$("#ov").innerHTML=`<h1>Élan Premium</h1><p class="m">${w||"Débloque tout Élan."}</p><div class="card" style="text-align:left"><p>✓ Les 7 catégories de citations</p><p>✓ Les 6 fonds d’écran et les 5 thèmes</p><p>✓ Tous les exercices de respiration</p><p>✓ Favoris illimités</p><p><b>${PRICE}</b></p></div>${PAY_URL?`<a class="btn" href="${PAY_URL}" target="_blank" rel="noopener" style="text-decoration:none">S’abonner</a>`:`<p class="m">L’abonnement arrive bientôt.</p>`}<p class="m" style="margin-top:14px">Tu as déjà un code ?</p><div><input id="cd" class="pi" placeholder="ELAN-XXXX-XXXX"> <button class="chip sub" onclick="unlock()">Valider</button></div><p class="m" id="cm"></p><button class="chip sub" onclick="stop()">Fermer</button>`;$("#ov").classList.add("on")}
+async function unlock(){const v=$("#cd").value.trim().toUpperCase();let h="";try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(v));h=[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){}if(CODES.includes(h)){S.pro=true;save();stop();toast("Premium activé, merci !");render()}else $("#cm").textContent="Code invalide. Vérifie-le et réessaie."}
+try{navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
+const chips=(arr,fn,on)=>arr.map(([k,l])=>`<button class="chip ${on(k)?"on":""}" onclick="${fn}('${k}')">${l}</button>`).join("");
+function render(){th();document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t==tab));const m=$("#main");
+if(tab=="home"){const q=Q[cq];m.innerHTML=`<div class="wall">${wp(S.wall,"m")}<div class="top">${chips([["all","Tout"],...S.cats.filter(okc).map(k=>[k,C[k]])],"flt",k=>k==f)}</div><div class="qt">${S.showQ?`<p class="q">« ${q[0]} »</p><p class="au">${q[1]}</p>`:""}</div><div class="act"><button class="rb" onclick="fav()">${S.fav.includes(cq)?"♥":"♡"}</button><button class="btn" onclick="nxt()">Une autre</button><button class="rb" onclick="shr()">⤴</button></div></div>`}
+else if(tab=="calm"){m.innerHTML=`<h1>Retrouver le calme</h1><p class="m">Choisis un exercice et suis le cercle.</p>${Object.keys(B).map(k=>`<div class="card"><button class="tc" style="background:none;padding:0" onclick="br('${k}')"><h3>${!S.pro&&!FREE.br.includes(k)?"🔒":"🌬️"} ${B[k][0]}</h3><span class="m">${B[k][1]}</span></button></div>`).join("")}<div class="card"><h3>👀 Ancrage 5-4-3-2-1</h3><p class="m">Quand les pensées s’emballent, reviens au présent.</p>${["5 choses que tu vois","4 choses que tu touches","3 sons que tu entends","2 odeurs que tu sens","1 goût que tu perçois"].map(t=>`<label class="r"><input type="checkbox">${t}</label>`).join("")}</div><p class="m">Ces exercices détendent mais ne remplacent pas un avis médical. Si l’anxiété t’envahit, parles-en à un professionnel.</p>`}
+else if(tab=="fav"){m.innerHTML=`<h1>Mes favoris</h1>${S.fav.length?S.fav.map(i=>`<div class="card"><p class="q" style="font-size:20px">« ${Q[i][0]} »</p><p class="m">${Q[i][1]}</p><button class="chip sub" style="color:var(--t)" onclick="cq=${i};fav();">Retirer</button></div>`).join(""):`<p class="m">Touche ♡ sur une citation pour la garder ici.</p>`}`}
+else{const w=["Jeu","Ven","Sam","Dim","Lun","Mar","Mer"];const ds=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);return[d.toLocaleDateString("sv"),d.toLocaleDateString("fr-FR",{weekday:"short"}).slice(0,3)]});
+m.innerHTML=`<h1>Profil</h1>${prem()}<div class="card"><h3>🔥 Série : ${streak()} jour${streak()>1?"s":""}</h3><div class="days">${ds.map(([d,l])=>`<div class="d ${S.days.includes(d)?"on":""}">${l}<b>${S.days.includes(d)?"✓":""}</b></div>`).join("")}</div></div>
+<div class="card sub"><h3>Sujets suivis</h3><div style="display:flex;flex-wrap:wrap;gap:6px">${chips(Object.entries(C).map(([k,l])=>[k,(okc(k)?"":"🔒 ")+l]),"cat",k=>okc(k)&&S.cats.includes(k))}</div></div>
+<div class="card"><h3>Fonds d’écran</h3><div class="grid">${W.map((w,i)=>`<button class="th ${S.wall==i?"on":""} ${okw(i)?"":"lock"}" onclick="setW(${i})" aria-label="${w.n}">${wp(i,"t"+i)}</button>`).join("")}</div><label class="r"><input type="checkbox" ${S.showQ?"checked":""} onchange="tq()">Afficher la citation sur le fond</label></div>
+<div class="card"><h3>Couleurs</h3><div style="display:flex">${TH.map((t,i)=>`<button class="dot ${S.theme==i?"on":""} ${okt(i)?"":"lock"}" style="background:linear-gradient(135deg,${t[1]},${t[2]})" onclick="setT(${i})" aria-label="${t[0]}"></button>`).join("")}</div></div>
+<div class="card"><h3>Rappels</h3><label class="r"><input type="checkbox" ${S.rem.on?"checked":""} onchange="remOn()">Une citation chaque jour à</label><input type="time" value="${S.rem.t}" onchange="S.rem.t=this.value;S.rem.last='';save()"> <button class="chip sub" onclick="ping()">Tester</button><p class="m" style="margin-top:10px">Le rappel s’affiche tant que l’app est ouverte.</p></div>`}}
+render();
+</script></body></html>
